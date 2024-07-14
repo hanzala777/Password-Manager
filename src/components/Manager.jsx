@@ -20,7 +20,7 @@ const Manager = () => {
     
     const savePassword = (params) => {
         setPasswordArray([...passwordArray, form])
-        localStorage.setItem('password', JSON.stringify([...passwordArray, form]))
+        localStorage.setItem('passwords', JSON.stringify([...passwordArray, form]))
         console.log([...passwordArray, form])
     }
     
@@ -48,6 +48,27 @@ const Manager = () => {
                 </div>
                 <button onClick={savePassword} className='flex w-fit justify-center items-center border-2 border-blue-800 rounded-full bg-blue-400 p-4 py-2 hover:bg-blue-300 hover:font-bold'>Add Password</button>
             </div>
+            <p className='font-bold text-2xl py-4'>Your passwords</p>
+            <table className="table-auto w-full rounded-md overflow-hidden">
+                <thead className='bg-blue-800 text-white'>
+                    <tr >
+                    <th className='py-2'>Site</th>
+                    <th className='py-2'>Username</th>
+                    <th className='py-2'>Password</th>
+                    </tr>
+                </thead>
+                <tbody  className='bg-blue-50'>
+                    {
+                        passwordArray.map((item, index) => {
+                            return <tr key={index}>
+                            <td className='py-2 border border-white text-center w-38'><a href={item.site} target='_blank'>{item.site}</a></td>
+                            <td className='py-2 border border-white text-center w-38'>{item.username}</td>
+                            <td className='py-2 border border-white text-center w-38'>{item.password}</td>
+                        </tr>
+                        })
+                    }
+                </tbody>
+            </table>
         </div>
     )
 }
