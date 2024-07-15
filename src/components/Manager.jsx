@@ -46,18 +46,18 @@ const Manager = () => {
                         </p>
                     </span>
                 </div>
-                <button onClick={savePassword} className='flex w-fit justify-center items-center border-2 border-blue-800 rounded-full bg-blue-400 p-4 py-2 hover:bg-blue-300 hover:font-bold'>Add Password</button>
+                <button onClick={savePassword} className='flex w-fit justify-center items-center border-2 border-blue-600 rounded-full bg-blue-500 p-4 py-2 hover:bg-blue-300 hover:font-bold'>Add Password</button>
             </div>
             <p className='font-bold text-2xl py-4'>Your passwords</p>
             <table className="table-auto w-full rounded-md overflow-hidden">
-                <thead className='bg-blue-800 text-white'>
+                <thead className='bg-blue-600 text-white'>
                     <tr >
                     <th className='py-2'>Site</th>
                     <th className='py-2'>Username</th>
                     <th className='py-2'>Password</th>
                     </tr>
                 </thead>
-                <tbody  className='bg-blue-50'>
+                <tbody  className='bg-purple-50'>
                     {
                         passwordArray.map((item, index) => {
                             return <tr key={index}>
