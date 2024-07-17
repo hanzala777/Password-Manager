@@ -1,10 +1,11 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Manager = () => {
-    const [isShown, setIsShown] = useState(true);
+    const [isShown, setIsShown] = useState(false);
     const [form, setForm] = useState({site: '', username: '', password: ''})
     const [passwordArray, setPasswordArray] = useState([])
+    const inputRef = useRef(null);
 
     useEffect(() => {
       let passwords = localStorage.getItem('passwords');
@@ -26,6 +27,9 @@ const Manager = () => {
     
     const showPassword = (params) => {
         setIsShown(!isShown);
+        if (inputRef.current) {
+            inputRef.current.type = isShown ? 'password' : 'text';
+        }
     }
     return (
         <div className="mycontainer bg-red-50">
@@ -39,10 +43,10 @@ const Manager = () => {
                 <input value={form.site} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='Website' type="text" name='site' id=''/>
                 <div className='flex w-full gap-8 '>
                     <input value={form.username} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='username' type="text" name="username" id="" />
-                    <input value={form.password} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='password' type="text" name="password" id="" />
+                    <input value={form.password} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='password' type="password" name="password" ref={inputRef} id="" />
                     <span className='flex flex-col justify-center items-center cursor-pointer font-bold text-lg' onClick={showPassword}>
                         <p>
-                            {isShown ? 'Show' : 'Hide'}
+                            {isShown ? 'Hide' : 'Show'}
                         </p>
                     </span>
                 </div>
@@ -61,7 +65,12 @@ const Manager = () => {
                     {
                         passwordArray.map((item, index) => {
                             return <tr key={index}>
-                            <td className='py-2 border border-white text-center w-38'><a href={item.site} target='_blank'>{item.site}</a></td>
+                            <td className='py-2 border border-white text-center w-38'>
+                                <a href={item.site} target='_blank'>{item.site}</a>
+                                {/* <button className='relative right-10'>
+                                    <img className='w-4' src="./src/assets/copy.svg" alt="" />
+                                </button> */}
+                            </td>
                             <td className='py-2 border border-white text-center w-38'>{item.username}</td>
                             <td className='py-2 border border-white text-center w-38'>{item.password}</td>
                         </tr>
