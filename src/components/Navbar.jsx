@@ -9,13 +9,12 @@ const Navbar = () => {
                 Pass
                 <span className='text-blue-500'>OP/&gt;</span>
             </div>
-            <ul>
-                <li className='flex gap-4 text-red-50'>
-                    <a className='hover:font-bold' href="#">Home</a>
-                    <a className='hover:font-bold' href="#">About</a>
-                    <a className='hover:font-bold' href="#">Contact</a>
-                </li>
-            </ul>
+            <button >
+            </button>
+            <a href="https://react.dev" target='_blank' className='text-orange-50 bg-blue-500 my-5 rounded-full flex gap-2 justify-center items-center px-2'>
+                <img className='invert w-10 p-1'  src='\src\assets\react.svg' alt="React" />
+                <span className='font-bold'>React</span>
+            </a>
         </div>
     </nav>
   )
