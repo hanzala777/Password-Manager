@@ -31,15 +31,18 @@ const Manager = () => {
             inputRef.current.type = isShown ? 'password' : 'text';
         }
     }
+    const copyText = (text) => {
+        navigator.clipboard.writeText(text)
+    }
     return (
-        <div className="mycontainer bg-red-50">
+        <div className="mycontainer bg-blue-50">
             <h1 className='text-4xl text font-bold text-center'>
                 <span className='text-blue-500'>&lt;</span>
                     Pass
                 <span className='text-blue-500'>OP/&gt;</span>
             </h1>
             <p className='text-blue-900 text-lg font-bold text-center'>Your own password manager.</p>
-            <div className='flex flex-col p-4 gap-8 items-center'>
+            z<div className='flex flex-col p-4 gap-8 items-center'>
                 <input value={form.site} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='Website' type="text" name='site' id=''/>
                 <div className='flex w-full gap-8 '>
                     <input value={form.username} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='username' type="text" name="username" id="" />
@@ -61,18 +64,28 @@ const Manager = () => {
                     <th className='py-2'>Password</th>
                     </tr>
                 </thead>
-                <tbody  className='bg-purple-50'>
+                <tbody  className='bg-lime-50'>
                     {
                         passwordArray.map((item, index) => {
                             return <tr key={index}>
-                            <td className='py-2 border border-white text-center w-38'>
-                                <a href={item.site} target='_blank'>{item.site}</a>
-                                {/* <button className='relative right-10'>
-                                    <img className='w-4' src="./src/assets/copy.svg" alt="" />
-                                </button> */}
+                            <td className='py-2 border border-white text-center'>
+                                <div className='flex justify-center items-center gap-2'>
+                                    <a href={item.site} target='_blank'>{item.site}</a>
+                                    <img className='w-4 cursor-pointer active:invert' src="./src/assets/copy.svg" alt="" onClick = {() => {copyText(item.site)}}/>
+                                </div>
                             </td>
-                            <td className='py-2 border border-white text-center w-38'>{item.username}</td>
-                            <td className='py-2 border border-white text-center w-38'>{item.password}</td>
+                            <td className='py-2 border border-white text-center'>
+                                <div className='flex justify-center items-center gap-2'>
+                                    {item.username}
+                                    <img className='w-4 cursor-pointer active:invert' src="./src/assets/copy.svg" alt="" onClick = {() => {copyText(item.username)}}/>
+                                </div>
+                            </td>
+                            <td className='py-2 border border-white text-center'>
+                                <div className='flex justify-center items-center gap-2'>
+                                    {item.password}
+                                    <img className='w-4 cursor-pointer active:invert' src="./src/assets/copy.svg" alt="" onClick = {() => {copyText(item.password)}}/>
+                                </div>
+                            </td>
                         </tr>
                         })
                     }
