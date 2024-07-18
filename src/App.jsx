@@ -8,8 +8,10 @@ function App() {
       <div className='sticky top-0'>
         <Navbar/>
       </div>
-     <Manager/>
-     <Footer/> 
+      <div className='md:mycontainer bg-blue-50'>
+        <Manager/>
+      </div>
+      <Footer/> 
     </>
   )
 }

@@ -29,9 +29,10 @@ const Manager = () => {
             setForm({site : '', username : '', password : ''})
             localStorage.setItem('passwords', JSON.stringify([...passwordArray,  {...form, id : uuidv4()}]))
             console.log([...passwordArray, form])
+            // toast('Password saved!',{})
         }
         else{
-            alert('please fill all the details!')
+            toast('ERROR: password not saved!',{})
         }
     }
     
@@ -82,7 +83,7 @@ const Manager = () => {
                 theme="light"
                 />
             <ToastContainer />
-            <div className="mycontainer bg-blue-50">
+            <div>
                 <h1 className='text-4xl text font-bold text-center'>
                     <span className='text-blue-500'>&lt;</span>
                         Pass
@@ -90,11 +91,11 @@ const Manager = () => {
                 </h1>
                 <p className='text-blue-900 text-lg font-bold text-center'>Your own password manager.</p>
                 <div className='flex flex-col p-4 gap-8 items-center'>
-                    <input value={form.site} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='Website' type="text" name='site' id=''/>
+                    <input value={form.site} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='Website' type="text" name='site' id='site'/>
                     <div className='flex w-full gap-8 '>
-                        <input value={form.username} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='username' type="text" name="username" id="" />
-                        <input value={form.password} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='password' type="password" name="password" ref={inputRef} id="" />
-                        <span className='flex flex-col justify-center items-center cursor-pointer font-bold text-lg' onClick={showPassword}>
+                        <input value={form.username} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='username' type="text" name="username" id="username" />
+                        <input value={form.password} onChange={handleChange} className='w-full rounded-full border border-blue-500 p-4 py-1' placeholder='password' type="password" name="password" ref={inputRef} id="password" />
+                        <span className='flex flex-col justify-center items-baseline cursor-pointer font-bold text-sm' onClick={showPassword}>
                             <p>
                                 {isShown ? 'Hide' : 'Show'}
                             </p>
