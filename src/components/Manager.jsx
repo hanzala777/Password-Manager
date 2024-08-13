@@ -11,11 +11,15 @@ const Manager = () => {
     const [passwordArray, setPasswordArray] = useState([])
     const inputRef = useRef(null);
 
+    const getPasswords = async () => {
+        let req = await fetch('http://localhost:3000/')
+        let passwords = await req.json()
+        setPasswordArray(passwords)
+        console.log(passwords)
+    }
+
     useEffect(() => {
-      let passwords = localStorage.getItem('passwords');
-      if(passwords){
-        setPasswordArray(JSON.parse(passwords))
-      }
+      getPasswords()
     }, [])
     
 
@@ -23,31 +27,71 @@ const Manager = () => {
         setForm({...form, [e.target.name]: e.target.value})
     }
     
-    const savePassword = (params) => {
-        if(form.site && form.username && form.password){
-            setPasswordArray([...passwordArray, {...form, id : uuidv4()}])
-            setForm({site : '', username : '', password : ''})
-            localStorage.setItem('passwords', JSON.stringify([...passwordArray,  {...form, id : uuidv4()}]))
-            console.log([...passwordArray, form])
-            // toast('Password saved!',{})
-        }
-        else{
-            toast('ERROR: password not saved!',{})
-        }
-    }
+    const savePassword = async () => {
+        if (form.site && form.username && form.password) {
+            try {
+                // If the form has an id, it means we're editing an existing password
+                if (form.id) {
+                    await fetch("http://localhost:3000/", {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ id: form.id })
+                    });
     
-    const deletePassword = (id) => {
-        let c = confirm('Are you sure you want to delete?');
-        if(c){
-            setPasswordArray(passwordArray.filter(item => item.id !== id))
-            localStorage.setItem('passwords', JSON.stringify(passwordArray.filter(item => item.id !== id)))
+                    setPasswordArray(passwordArray.filter(item => item.id !== form.id));
+                }
+    
+                const newPassword = { ...form, id: form.id || uuidv4() };
+                setPasswordArray([...passwordArray, newPassword]);
+    
+                await fetch("http://localhost:3000/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newPassword)
+                });
+    
+                setForm({ site: '', username: '', password: '', id: '' });
+            } catch (error) {
+                console.error('Error saving password:', error);
+                toast('ERROR: password not saved!', {});
+            }
+        } else {
+            toast('ERROR: Missing fields!', {});
         }
-    }
-
+    };
+    
+    const deletePassword = async (id) => {
+        const confirmDelete = confirm('Are you sure you want to delete?');
+        if (confirmDelete) {
+            try {
+                setPasswordArray(passwordArray.filter(item => item.id !== id));
+    
+                await fetch("http://localhost:3000/", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ id })
+                });
+            } catch (error) {
+                console.error('Error deleting password:', error);
+                toast('ERROR: Could not delete password!', {});
+            }
+        }
+    };
+    
     const editPassword = (id) => {
-        setForm(passwordArray.filter(item => item.id === id)[0])
-        setPasswordArray(passwordArray.filter(item => item.id !== id))
-    }
+        const passwordToEdit = passwordArray.find(item => item.id === id);
+        if (passwordToEdit) {
+            setForm(passwordToEdit);
+            setPasswordArray(passwordArray.filter(item => item.id !== id))
+        }
+    };
+    
 
     const showPassword = (params) => {
         setIsShown(!isShown);
